@@ -1,4 +1,4 @@
-const API_HEAD = 'http://localhost:5000/api'
+const API_HEAD = 'https://e-box-server.onrender.com/api'
 
 export const apis = {
     user:  {
