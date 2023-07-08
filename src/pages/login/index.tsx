@@ -22,6 +22,7 @@ import { LoginArgument } from "@/models/user";
 import { LoadingButton } from "@mui/lab";
 import { apis } from "@/util/api";
 import { httpClient } from "@/util/http-client";
+import Footer from "@/components/UI/Footer";
 
 const BackgroundImg = styled(
   Box,
@@ -90,13 +91,13 @@ function Login() {
     e.preventDefault()
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     await dispatch(login(form!)).unwrap()
-    // navigate('/home')
+    navigate('/home')
   }
-  const onToggleFormHandler = async (e: {preventDefault: () => void}) => {
-    e.preventDefault()
-    const res = await httpClient.get({url: apis.post.getPostList})
-    console.log(res)
-  };
+  // const onToggleFormHandler = async (e: {preventDefault: () => void}) => {
+  //   e.preventDefault()
+  //   const res = await httpClient.get({url: apis.post.getPostList})
+  //   console.log(res)
+  // };
 
 
   return (
@@ -141,12 +142,10 @@ function Login() {
             onChange = {(value) => setForm({...form, password: value.target.value})}
           />
           <CustomButton onClick={loginHandler} loading={isLoginLoading}>Submit</CustomButton>
-          <button className={` btn-primary bg-lightBlue`} onClick={onToggleFormHandler}>
-                  <Link to="/home">Đăng Nhập</Link>
-                </button>
           <Typography color="#fff">*Note: Only students from IT can access to system!</Typography>
         </Stack>
       </LoginForm>
+      <Footer/>
     </Stack>
   );
 }

@@ -112,7 +112,7 @@ const user = createSlice({
   },
 });
 
-export { login};
+export { login };
 
 // export const { setUserInfo, checkAuthentication, logout } = auth.actions;
 
