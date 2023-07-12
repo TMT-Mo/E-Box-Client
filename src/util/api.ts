@@ -1,4 +1,4 @@
-const API_HEAD = 'http://localhost:5000/api'
+const API_HEAD = process.env.API_HOST
 
 export const apis = {
     user:  {
