@@ -13,3 +13,16 @@ export enum AlertStatus {
   ERROR = "error",
   INFO = "info",
 }
+
+export const LocationPath = {
+  general: {
+    login: "/login",
+    home: "/home"
+  },
+  admin: {
+    default: '/admin',
+    postManagement: `/admin/post-management`,
+    chat: "/admin/chat",
+    history: "/admin/history"
+  }
+}

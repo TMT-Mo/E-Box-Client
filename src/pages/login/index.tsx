@@ -13,7 +13,6 @@ import {
   TextField,
   Typography,
   colors,
-  
 } from "@mui/material";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "@/hooks";
@@ -34,14 +33,15 @@ const BackgroundImg = styled(
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",
   backgroundImage: `url(${bg})`,
-  position: "absolute",
+  // position: "relative",
 });
 
 const BackgroundBox = styled(
   Box,
   {}
 )({
-  position: "absolute",
+  position: "relative",
+  display: "flex",
 });
 
 const LoginForm = styled(
@@ -50,9 +50,13 @@ const LoginForm = styled(
 )({
   borderRadius: "18px",
   flexDirection: "column",
-  margin: "auto",
+  // margin: "auto",
+  top: 0,
+  left: "50%",
+  transform: "translate(-50%, 50%)",
   width: 400,
-  position: "relative",
+  position: "absolute",
+  // bottom: 0
 });
 
 const CustomTextField = styled(
@@ -73,46 +77,43 @@ const CustomButton = styled(
   color: "white",
   fontWeight: "bold",
   ":hover": {
-    background: "rgb(29 78 216)"
-  }
+    background: "rgb(29 78 216)",
+  },
 });
 
 interface IForm {
-  username?: string,
-  password?: string
+  username?: string;
+  password?: string;
 }
 function Login() {
-  const [form, setForm] = useState<LoginArgument>({password: '', username: ''})
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const {isLoginLoading} = useSelector(state => state.user)
+  const [form, setForm] = useState<LoginArgument>({
+    password: "",
+    username: "",
+  });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isLoginLoading } = useSelector((state) => state.user);
 
-  const loginHandler = async (e: {preventDefault: () => void}) => {
-    e.preventDefault()
+  const loginHandler = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    await dispatch(login(form!)).unwrap()
-    navigate('/home')
-  }
-  // const onToggleFormHandler = async (e: {preventDefault: () => void}) => {
-  //   e.preventDefault()
-  //   const res = await httpClient.get({url: apis.post.getPostList})
-  //   console.log(res)
-  // };
-
+    await dispatch(login(form!)).unwrap();
+    navigate("/home");
+  };
 
   return (
     <Stack minHeight="100vh">
       <BackgroundBox>
         {/* <img src={bg} /> */}
 
-        <BackgroundImg />
+        <BackgroundImg/>
         <video
           src={introVideo}
           autoPlay
           playsInline
           muted
           loop
-          className="w-screen hidden lg:block"
+          className="hidden min-h-screen min-w-full absolute top-0 lg:block"
         ></video>
         <Backdrop
           open
@@ -122,30 +123,37 @@ function Login() {
             opacity: "57%",
           }}
         />
+        <LoginForm>
+          <div className="absolute top-0 bg-black w-full h-full opacity-70 lg:rounded"></div>
+          <Stack p={5} style={{ zIndex: 10 }} spacing={5}>
+            <Typography color="#fff" variant="h5">
+              Login
+            </Typography>
+            <CustomTextField
+              placeholder="Username"
+              inputProps={{ style: { color: "white" } }}
+              value={form?.username}
+              onChange={(value) =>
+                setForm({ ...form, username: value.target.value })
+              }
+            />
+            <CustomTextField
+              placeholder="Password"
+              inputProps={{ style: { color: "white" } }}
+              value={form?.password}
+              onChange={(value) =>
+                setForm({ ...form, password: value.target.value })
+              }
+            />
+            <CustomButton onClick={loginHandler} loading={isLoginLoading}>
+              Submit
+            </CustomButton>
+            <Typography color="#fff">
+              *Note: Only students from IT can access to system!
+            </Typography>
+          </Stack>
+        </LoginForm>
       </BackgroundBox>
-      <LoginForm>
-        <div className="absolute top-0 bg-black w-full h-full opacity-70 lg:rounded"></div>
-        <Stack p={5} style={{ zIndex: 10 }} spacing={5}>
-          <Typography color="#fff" variant="h5">
-            Login
-          </Typography>
-          <CustomTextField
-            placeholder="Username"
-            inputProps={{ style: { color: "white" } }}
-            value={form?.username}
-            onChange = {(value) => setForm({...form, username: value.target.value})}
-          />
-          <CustomTextField
-            placeholder="Password"
-            inputProps={{ style: { color: "white" } }}
-            value={form?.password}
-            onChange = {(value) => setForm({...form, password: value.target.value})}
-          />
-          <CustomButton onClick={loginHandler} loading={isLoginLoading}>Submit</CustomButton>
-          <Typography color="#fff">*Note: Only students from IT can access to system!</Typography>
-        </Stack>
-      </LoginForm>
-      <Footer/>
     </Stack>
   );
 }

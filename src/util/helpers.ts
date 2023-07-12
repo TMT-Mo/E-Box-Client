@@ -9,6 +9,19 @@ const handleError = (err: AxiosError) => {
     
 }
 
+const clearToken = () => {
+    sessionStorage.removeItem(KEY.ACCESS_TOKEN);
+  };
+  
+  const getToken = (): string => {
+    const token = sessionStorage
+      .getItem(KEY.ACCESS_TOKEN)
+      ?.replace(/(['"])/g, "") as string;
+    return token;
+  };
+
 export const helpers = {
-    saveToken
+    saveToken,
+    clearToken,
+    getToken
 }

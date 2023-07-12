@@ -17,27 +17,22 @@ import { helpers } from "@/util/helpers";
 import Cookie from 'js-cookie'
 
 interface State {
-  // token: string | null;
-  userInfo?: UserInfo | undefined;
+  userInfo?: UserInfo;
   isLoginLoading: boolean;
   checkAuthenticated?: boolean;
-  isGetSignatureLoading: boolean;
-  signature?: string;
-  isChangePasswordLoading: boolean;
 }
 
 type CR<T> = CaseReducer<State, PayloadAction<T>>;
 
-const ACTION_TYPE = "auth/";
+const ACTION_TYPE = "user/";
 
 const initialState: State = {
   checkAuthenticated: undefined,
   userInfo: undefined,
   isLoginLoading: false,
-  isGetSignatureLoading: false,
-  signature: undefined,
-  isChangePasswordLoading: false,
 };
+
+
 
 const setUserInfoCR: CR<{ user: UserInfo }> = (state, { payload }) => ({
   ...state,
@@ -59,7 +54,6 @@ const login = createAsyncThunk(
     try {
       const result = await userServices.login(args as LoginArgument);
       helpers.saveToken(result.accessToken as string)
-      // Cookie.set('refreshToken', result.token)
       return result;
     } catch (error) {
       const err = error as AxiosError;
@@ -78,12 +72,12 @@ const login = createAsyncThunk(
 );
 
 const user = createSlice({
-  name: "auth",
+  name: "user",
   initialState,
   reducers: {
     setUserInfo: setUserInfoCR,
     checkAuthentication: checkAuthenticationCR,
-    logout: logoutCR,
+    logoutSlice: logoutCR,
   },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => ({
@@ -114,6 +108,6 @@ const user = createSlice({
 
 export { login };
 
-// export const { setUserInfo, checkAuthentication, logout } = auth.actions;
+export const { setUserInfo, checkAuthentication, logoutSlice } = user.actions;
 
 export default user.reducer;

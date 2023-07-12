@@ -1,4 +1,4 @@
-const API_HEAD = 'https://e-box-server.onrender.com/api'
+const API_HEAD = 'http://localhost:5000/api'
 
 export const apis = {
     user:  {
@@ -8,5 +8,7 @@ export const apis = {
     },
     post: {
         getPostList: `${API_HEAD}/post/getPostList`,
+        getCategoryList: `${API_HEAD}/post/getCategoryList`,
+        createPost: `${API_HEAD}/post/createPost`
     }
 }

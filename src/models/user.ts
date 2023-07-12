@@ -21,18 +21,13 @@ export interface ChangePasswordArgument {
 }
 
 export interface UserInfo {
-  userId: number;
+  id: string;
+  username: string;
   roleName: string;
-  nbf: string;
-  iat: number;
-  exp: number;
-  userName: string;
-  signature: string;
-  idPermissions: string;
-  departmentName: string;
-  firstName: string;
-  lastName: string;
-  avatar: string;
+  createdAt: Date;
+  updatedAt: Date;
+  posts: [];
+  activities: [];
 }
 
 export interface GetSignatureArgs {
