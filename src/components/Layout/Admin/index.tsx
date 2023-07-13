@@ -21,19 +21,11 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Avatar from "@mui/material/Avatar/Avatar";
 import Fade from "@mui/material/Fade";
 import {
-  Pending,
-  ListAltOutlined,
-  FolderSharedOutlined,
-  AssignmentOutlined,
-  HistoryEduOutlined,
-  UploadFileOutlined,
-  ManageHistoryOutlined,
   AccountBoxOutlined,
-  HelpOutline,
 } from "@mui/icons-material";
 import TopBar from "./TopBar";
 import Typography from "@mui/material/Typography";
-import { useDispatch, useSelector } from "@/hooks";
+import { useSelector } from "@/hooks";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { LocationPath } from "@/util/constants";
 
@@ -69,7 +61,6 @@ const DividerStyled = styled(Divider)({
 
 export default function AdminLayout() {
   const [open, setOpen] = React.useState(true);
-  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -244,14 +235,14 @@ export default function AdminLayout() {
                     whiteSpace="normal"
                     fontWeight="bold"
                   >
-                    {userInfo?.roleName!}
+                    {userInfo?.roleName}
                   </Typography>
                 </Stack>
               )}
             </Stack>
             <DividerStyled />
             <StyledList aria-label="main mailbox folders">
-              <h5 className="pb-3 text-blue-config">"Account"</h5>
+              <h5 className="pb-3 text-blue-config">Account</h5>
 
               <Stack spacing={0.5}>
                 <StyledListBtn
@@ -322,7 +313,7 @@ export default function AdminLayout() {
             }}
           >
             <DrawerHeader />
-            <Container maxWidth="xl">
+            <Container maxWidth="lg">
               <Outlet />
             </Container>
           </Box>

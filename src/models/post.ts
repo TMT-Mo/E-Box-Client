@@ -39,7 +39,8 @@ export interface PostRequestQuery {
 export interface GetPostListResponse {
     items: IPost[],
     currentPage: number,
-    size: number
+    size: number,
+    total: number
 }
 
 export interface GetPostCategoryListResponse {

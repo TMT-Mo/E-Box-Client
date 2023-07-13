@@ -1,9 +1,5 @@
-import { ValidationErrors } from "@/models/alert";
 import { userServices } from "@/services/user";
-import {
-  UserInfo,
-  LoginArgument,
-} from "@/models/user";
+import { UserInfo, LoginArgument } from "@/models/user";
 import {
   CaseReducer,
   createAsyncThunk,
@@ -11,11 +7,9 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import jwtDecode from "jwt-decode";
-import { AxiosError } from "axios";
-import { handleError, handleSuccess } from "./alert";
 import { helpers } from "@/util/helpers";
-import Cookie from 'js-cookie'
 
+const {handleErrorHandler, saveToken} = helpers
 interface State {
   userInfo?: UserInfo;
   isLoginLoading: boolean;
@@ -31,8 +25,6 @@ const initialState: State = {
   userInfo: undefined,
   isLoginLoading: false,
 };
-
-
 
 const setUserInfoCR: CR<{ user: UserInfo }> = (state, { payload }) => ({
   ...state,
@@ -53,20 +45,10 @@ const login = createAsyncThunk(
   async (args: LoginArgument, { dispatch }) => {
     try {
       const result = await userServices.login(args as LoginArgument);
-      helpers.saveToken(result.accessToken as string)
+      saveToken(result.accessToken as string);
       return result;
     } catch (error) {
-      const err = error as AxiosError;
-      if (err.response?.data) {
-        dispatch(
-          handleError({
-            errorMessage: (err.response?.data as ValidationErrors).errorMessage,
-          })
-        );
-      } else {
-        dispatch(handleError({ errorMessage: err.message }));
-      }
-      throw err;
+      handleErrorHandler(dispatch, error)
     }
   }
 );
@@ -102,7 +84,6 @@ const user = createSlice({
       ...state,
       isLoginLoading: false,
     }));
-    
   },
 });
 

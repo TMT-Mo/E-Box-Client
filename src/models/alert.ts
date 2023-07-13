@@ -8,7 +8,8 @@ export interface Alert {
   isOpen: boolean;
 }
 
-export interface ValidationErrors {
+export interface ValidationErrors{
+  
   errorMessage: string;
-  code: number
+  // code: number
 }

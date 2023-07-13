@@ -23,6 +23,9 @@ export const LocationPath = {
     default: '/admin',
     postManagement: `/admin/post-management`,
     chat: "/admin/chat",
-    history: "/admin/history"
+    history: "/admin/history",
+    account: "/admin/account",
+    activity: "/admin/activity",
+
   }
 }

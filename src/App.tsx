@@ -1,9 +1,6 @@
-import { useEffect, useState } from "react";
 import {
   Routes,
   Route,
-  createBrowserRouter,
-  RouterProvider,
   useLocation,
 } from "react-router-dom";
 import Login from "@/pages/login/index";
@@ -17,6 +14,7 @@ import PostManagement from "@/pages/post-management";
 import { LocationPath } from "@/util/constants";
 import Chat from "@/pages/chat";
 import History from "@/pages/history";
+import { useEffect } from "react";
 
 
 
@@ -26,11 +24,11 @@ function App() {
   const location = useLocation()
   const {chat, history, postManagement} = LocationPath.admin
   const {home, login} = LocationPath.general
-  // useEffect(() => {
-  //   !checkAuthenticated && authenticate();
-  // }, [authenticate, checkAuthenticated]);
+  
+  useEffect(() => {
+    !checkAuthenticated && authenticate();
+  }, [authenticate, checkAuthenticated]);
 
-  console.log(location.pathname)
   return (
     <>
       {/* <RouterProvider router={router} /> */}
