@@ -4,7 +4,13 @@ import {
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
-import { CreatePostArguments, IPost, IPostCategory, PostRequestQuery } from "./../models/post";
+import {
+  ApprovePostArgs,
+  CreatePostArguments,
+  IPost,
+  IPostCategory,
+  PostRequestQuery,
+} from "./../models/post";
 import { postServices } from "@/services/post";
 import { handleSuccess } from "@/slices/alert";
 import { helpers } from "@/util/helpers";
@@ -12,17 +18,20 @@ import { helpers } from "@/util/helpers";
 interface State {
   isGetPostListLoading: boolean;
   isGetPostCategoryListLoading: boolean;
+  isApprovePostLoading: boolean;
   searchItemValue?: string;
   isCreatePostLoading: boolean;
   postList: IPost[];
   categoryList: IPostCategory[];
   currentPage: number;
-  size: number,
-  total: number
+  size: number;
+  total: number;
+  postDetail?: IPost;
 }
 
 const initialState: State = {
   searchItemValue: undefined,
+  isApprovePostLoading: false,
   isGetPostListLoading: false,
   isGetPostCategoryListLoading: false,
   isCreatePostLoading: false,
@@ -30,10 +39,11 @@ const initialState: State = {
   postList: [],
   currentPage: 0,
   size: 5,
-  total: 1
+  total: 1,
+  postDetail: undefined,
 };
 
-const {handleErrorHandler} = helpers
+const { handleErrorHandler } = helpers;
 
 type CR<T> = CaseReducer<State, PayloadAction<T>>;
 
@@ -47,12 +57,14 @@ const onChangePostPageCR: CR<{ selectedPage: number }> = (
   currentPage: payload.selectedPage!,
 });
 
-const onSearchPostCR: CR<{ value: string }> = (
-  state,
-  { payload }
-) => ({
+const getPostDetailCR: CR<{ post: IPost }> = (state, { payload }) => ({
   ...state,
-  searchItemValue: payload.value
+  postDetail: payload.post!,
+});
+
+const onSearchPostCR: CR<{ value: string }> = (state, { payload }) => ({
+  ...state,
+  searchItemValue: payload.value,
 });
 
 const clearPostCR: CR<void> = () => ({
@@ -66,7 +78,7 @@ const getPostList = createAsyncThunk(
       const result = await postServices.getPostList(params);
       return result;
     } catch (error) {
-      handleErrorHandler(dispatch, error)
+      handleErrorHandler(dispatch, error);
     }
   }
 );
@@ -78,7 +90,19 @@ const createPost = createAsyncThunk(
       dispatch(handleSuccess({ message: result.message }));
       return result;
     } catch (error) {
-      handleErrorHandler(dispatch, error)
+      handleErrorHandler(dispatch, error);
+    }
+  }
+);
+const approvePost = createAsyncThunk(
+  `${ACTION_TYPE}approvePost`,
+  async (args: ApprovePostArgs, { dispatch }) => {
+    try {
+      const result = await postServices.approvePost(args);
+      dispatch(handleSuccess({ message: result.message }));
+      return result;
+    } catch (error) {
+      handleErrorHandler(dispatch, error);
     }
   }
 );
@@ -90,7 +114,7 @@ const getPostCategoryList = createAsyncThunk(
       const result = await postServices.getPostCategoryList();
       return result;
     } catch (error) {
-      handleErrorHandler(dispatch, error)
+      handleErrorHandler(dispatch, error);
     }
   }
 );
@@ -101,7 +125,8 @@ const postSlice = createSlice({
   reducers: {
     onChangePostPage: onChangePostPageCR,
     onSearchPost: onSearchPostCR,
-    clearPost: clearPostCR
+    clearPost: clearPostCR,
+    getPostDetail: getPostDetailCR,
   },
   extraReducers: (builder) => {
     builder.addCase(getPostList.pending, (state) => ({
@@ -112,7 +137,7 @@ const postSlice = createSlice({
       ...state,
       isGetPostListLoading: false,
       postList: payload!.items,
-      total: payload!.total
+      total: payload!.total,
     }));
     builder.addCase(getPostList.rejected, (state) => ({
       ...state,
@@ -124,11 +149,23 @@ const postSlice = createSlice({
     }));
     builder.addCase(createPost.fulfilled, (state) => ({
       ...state,
-      isCreatePostLoading: false
+      isCreatePostLoading: false,
     }));
     builder.addCase(createPost.rejected, (state) => ({
       ...state,
       isCreatePostLoading: false,
+    }));
+    builder.addCase(approvePost.pending, (state) => ({
+      ...state,
+      isApprovePostLoading: true,
+    }));
+    builder.addCase(approvePost.fulfilled, (state) => ({
+      ...state,
+      isApprovePostLoading: false,
+    }));
+    builder.addCase(approvePost.rejected, (state) => ({
+      ...state,
+      isApprovePostLoading: false,
     }));
     builder.addCase(getPostCategoryList.pending, (state) => ({
       ...state,
@@ -146,8 +183,9 @@ const postSlice = createSlice({
   },
 });
 
-export { getPostList, getPostCategoryList, createPost };
+export { getPostList, getPostCategoryList, createPost, approvePost };
 
-export const {onChangePostPage, onSearchPost, clearPost} = postSlice.actions
+export const { onChangePostPage, onSearchPost, clearPost, getPostDetail } =
+  postSlice.actions;
 
-export default postSlice.reducer
+export default postSlice.reducer;

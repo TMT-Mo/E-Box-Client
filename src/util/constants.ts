@@ -6,6 +6,7 @@ export enum StatusPost {
 
 export enum KEY {
   ACCESS_TOKEN = "accessToken",
+  LOCATION = "location",
 }
 
 export enum AlertStatus {
@@ -17,15 +18,18 @@ export enum AlertStatus {
 export const LocationPath = {
   general: {
     login: "/login",
-    home: "/home"
+    home: "/home",
   },
   admin: {
-    default: '/admin',
+    admin: "/admin",
     postManagement: `/admin/post-management`,
     chat: "/admin/chat",
     history: "/admin/history",
     account: "/admin/account",
     activity: "/admin/activity",
+  },
+};
 
-  }
+export enum DataTableHeader {
+  STATUS = "status",
 }

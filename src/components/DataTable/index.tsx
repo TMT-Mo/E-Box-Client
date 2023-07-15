@@ -1,7 +1,5 @@
 import React from "react";
-import { DataGrid, GridColumnVisibilityModel } from "@mui/x-data-grid";
-// import CustomPagination from "./pagination";
-// import CustomNoRow from "components/CustomNoRow";
+import { DataGrid } from "@mui/x-data-grid";
 import { useLocation } from "react-router-dom";
 import { LocationPath } from "@/util/constants";
 import { useDispatch, useSelector } from "@/hooks";
@@ -9,8 +7,7 @@ import { onChangePostPage } from "@/slices/post";
 import { Data } from "@/models/mui-data";
 import CustomPagination from "@/components/Pagination";
 import { postColumns } from "@/components/DataTable/columns";
-import { PostManagementToolBar } from "@/components/DataTable/toolbar/post-management";
-import { Container } from "@mui/material";
+import { PostManagementToolBar } from "@/components/DataTable/post-management/toolbar";
 
 export interface GetRowIdParams {
   // The data item provided to the grid for the row in question
@@ -21,9 +18,10 @@ const DataTable: React.FC = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { admin, general } = LocationPath;
-  const { isGetPostListLoading, postList, total, currentPage, size } = useSelector(state => state.post)
+  const { isGetPostListLoading, postList, total, currentPage, size } =
+    useSelector((state) => state.post);
 
-  const rowHeight = 52
+  const rowHeight = 52;
 
   const data = (): Data => {
     switch (pathname) {
@@ -52,7 +50,7 @@ const DataTable: React.FC = () => {
 
   return (
     <>
-    <DataGrid
+      <DataGrid
         rows={data().table}
         columns={data().columns!}
         loading={data().loading}
@@ -61,7 +59,7 @@ const DataTable: React.FC = () => {
         hideFooterPagination
         hideFooter
         slots={{
-          toolbar: data().toolbar
+          toolbar: data().toolbar,
         }}
         slotProps={{
           panel: {
@@ -92,9 +90,9 @@ const DataTable: React.FC = () => {
           ".MuiDataGrid-columnHeaders": {
             borderTop: "1px solid #E0E0E0",
           },
-          ".MuiDataGrid-virtualScroller":{
-            height: rowHeight*size
-          }
+          ".MuiDataGrid-virtualScroller": {
+            height: rowHeight * size,
+          },
         }}
       />
       {data().table.length > 0 && (
@@ -103,7 +101,8 @@ const DataTable: React.FC = () => {
           totalPages={data().totalPages!}
           onChangePage={data().onChangePage!}
         />
-      )}</>
+      )}
+    </>
   );
 };
 

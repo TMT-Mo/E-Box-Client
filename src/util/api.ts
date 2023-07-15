@@ -11,6 +11,7 @@ export const apis = {
     post: {
         getPostList: `${API_HEAD}/post/getPostList`,
         getCategoryList: `${API_HEAD}/post/getCategoryList`,
-        createPost: `${API_HEAD}/post/createPost`
+        createPost: `${API_HEAD}/post/createPost`,
+        approvePost: `${API_HEAD}/post/updatePost`,
     }
 }

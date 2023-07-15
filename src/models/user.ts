@@ -20,7 +20,7 @@ export interface ChangePasswordArgument {
   // newPassword: string;
 }
 
-export interface UserInfo {
+export interface IUser {
   id: string;
   username: string;
   roleName: string;

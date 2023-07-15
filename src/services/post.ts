@@ -1,4 +1,4 @@
-import { CreatePostArguments, CreatePostResponse, GetPostCategoryListResponse, GetPostListResponse, PostRequestQuery } from "@/models/post";
+import { CreatePostArguments, CreatePostResponse, GetPostCategoryListResponse, GetPostListResponse, PostRequestQuery, ApprovePostArgs, ApprovePostResponse } from "@/models/post";
 import { apis } from "@/util/api";
 import { httpClient } from "@/util/http-client";
 
@@ -15,9 +15,14 @@ const createPost = async(args: CreatePostArguments) => {
     const response = await httpClient.post({url: apis.post.createPost, data: args})
     return response.data as CreatePostResponse
 }
+const approvePost = async(args: ApprovePostArgs) => {
+    const response = await httpClient.patch({url: apis.post.approvePost, data: args})
+    return response.data as ApprovePostResponse
+}
 
 export const postServices = {
     getPostList,
     getPostCategoryList,
-    createPost
+    createPost,
+    approvePost
 }

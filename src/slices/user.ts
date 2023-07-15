@@ -1,5 +1,5 @@
 import { userServices } from "@/services/user";
-import { UserInfo, LoginArgument } from "@/models/user";
+import { IUser, LoginArgument } from "@/models/user";
 import {
   CaseReducer,
   createAsyncThunk,
@@ -11,7 +11,7 @@ import { helpers } from "@/util/helpers";
 
 const {handleErrorHandler, saveToken} = helpers
 interface State {
-  userInfo?: UserInfo;
+  userInfo?: IUser;
   isLoginLoading: boolean;
   checkAuthenticated?: boolean;
 }
@@ -26,7 +26,7 @@ const initialState: State = {
   isLoginLoading: false,
 };
 
-const setUserInfoCR: CR<{ user: UserInfo }> = (state, { payload }) => ({
+const setUserInfoCR: CR<{ user: IUser }> = (state, { payload }) => ({
   ...state,
   userInfo: payload.user!,
 });

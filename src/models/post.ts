@@ -1,14 +1,17 @@
+import { IUser } from "@/models/user";
 import { StatusPost } from "@/util/constants";
 
 export interface IPost {
   id: string;
   title: string;
   description: string;
-  creator: number;
+  creator: IUser;
   createdAt: Date;
   updatedAt: Date;
   status: StatusPost;
-  category: string;
+  approver?: IUser;
+  feedback?: string;
+  category: IPostCategory;
 }
 
 
@@ -17,7 +20,6 @@ export interface IPostCategory{
   name: string;
   status: string;
   creator: string;
-  category: string;
 }
 export interface CreatePostArguments{
   title?: string;
@@ -25,7 +27,18 @@ export interface CreatePostArguments{
   creator?: string;
   category?: string;
 }
+
+export interface ApprovePostArgs {
+  id: string;
+  status: StatusPost;
+  approver: string;
+  feedback: string
+}
 export interface CreatePostResponse{
+  message: string,
+  code: number
+}
+export interface ApprovePostResponse{
   message: string,
   code: number
 }

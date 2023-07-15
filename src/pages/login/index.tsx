@@ -1,27 +1,21 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import introVideo from "@/assets/video_background.mp4";
 import bg from "@/assets/school.png";
-import classes from "./login.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Backdrop,
   Box,
-  Button,
-  Container,
-  Paper,
   Stack,
   TextField,
   Typography,
-  colors,
 } from "@mui/material";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "@/hooks";
 import { login } from "@/slices/user";
 import { LoginArgument } from "@/models/user";
 import { LoadingButton } from "@mui/lab";
-import { apis } from "@/util/api";
-import { httpClient } from "@/util/http-client";
-import Footer from "@/components/UI/Footer";
+import Footer from "@/components/Layout/General/Footer/index";
+import React from "react";
 
 const BackgroundImg = styled(
   Box,
@@ -75,9 +69,14 @@ const CustomButton = styled(
   borderRadius: "6px",
   textTransform: "none",
   color: "white",
+  fill: "white",
   fontWeight: "bold",
   ":hover": {
     background: "rgb(29 78 216)",
+  },
+  "&.MuiLoadingButton-loading": {
+    backgroundColor: "#fff",
+    borderColor: "#407AFF",
   },
 });
 
@@ -154,6 +153,7 @@ function Login() {
           </Stack>
         </LoginForm>
       </BackgroundBox>
+      <Footer/>
     </Stack>
   );
 }

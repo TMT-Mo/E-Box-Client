@@ -37,6 +37,10 @@ const CustomButton = styled(
   ":hover": {
     background: "rgb(29 78 216)",
   },
+  "&.MuiLoadingButton-loading": {
+    backgroundColor: "#fff",
+    borderColor: "#407AFF",
+  },
 });
 
 const SubmitForm = (props: Props) => {
@@ -44,7 +48,6 @@ const SubmitForm = (props: Props) => {
   const {
     isGetPostCategoryListLoading,
     categoryList,
-    total,
     isCreatePostLoading,
   } = useSelector((state) => state.post);
   const { handleToggleSubmitForm, isOpenPostForm } = props;
@@ -67,8 +70,8 @@ const SubmitForm = (props: Props) => {
       <Stack minWidth={500} bgcolor="#fff" borderRadius={5} p={5} spacing={3}>
         <Stack alignItems="end">
           <ClearIcon
-            style={{ color: "#000" }}
             onClick={handleToggleSubmitForm}
+            sx={{':hover': {cursor: 'pointer'}, color: '#000'}}
           />
         </Stack>
         <Typography
@@ -96,7 +99,7 @@ const SubmitForm = (props: Props) => {
           <Autocomplete
             disablePortal
             id="combo-box-demo"
-            sx={{ width: 300 }}
+            sx={{ width: '100%' }}
             loading={isGetPostCategoryListLoading}
             options={categoryList}
             onChange={(e, value) =>

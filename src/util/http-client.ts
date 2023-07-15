@@ -88,4 +88,7 @@ export const httpClient = {
   post: (args: Options): Promise<AxiosResponse> => {
     return request({ ...args, method: "POST" });
   },
+  patch: (args: Options): Promise<AxiosResponse> => {
+    return request({ ...args, method: "PATCH" });
+  },
 };
