@@ -20,6 +20,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "@/hooks";
 import { useNavigate } from "react-router-dom";
 import { LocationPath } from "@/util/constants";
+import AssignmentIcon from '@mui/icons-material/Assignment';
 const StyledTopBar = styled(
   Stack,
   {}
@@ -37,6 +38,7 @@ const TopBar = () => {
   const navigate = useNavigate()
   const {logout} = useAuth()
   const {postManagement} = LocationPath.admin
+  const {activity} = LocationPath.general
   const signOutHandler = () => {
     logout();
   };
@@ -74,18 +76,24 @@ const TopBar = () => {
             >
               <Paper sx={{ width: 220, maxWidth: "100%" }}>
                 <MenuList>
+                  <MenuItem onClick={() => navigate(activity)}>
+                    <ListItemIcon>
+                      <AssignmentIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText>Activity</ListItemText>
+                  </MenuItem>
                   <MenuItem onClick={() => navigate(postManagement)}>
                     <ListItemIcon>
                       <LockPersonIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText>Admin mode</ListItemText>
                   </MenuItem>
-                  <MenuItem>
+                  {/* <MenuItem>
                     <ListItemIcon>
                       <LockPersonIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText>Change password</ListItemText>
-                  </MenuItem>
+                  </MenuItem> */}
                   <Divider />
                   <MenuItem onClick={signOutHandler}>
                     <ListItemIcon>

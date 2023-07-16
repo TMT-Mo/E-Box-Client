@@ -1,38 +1,30 @@
 import DataTable from "@/components/DataTable";
 import { useDispatch, useSelector } from "@/hooks";
-import { clearPost, getPostList } from "@/slices/post";
-import { DataTableHeader, StatusPost } from "@/util/constants";
+import { getUserList } from "@/slices/user";
 import { Stack, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 
-const PostManagement = () => {
+const AccountManagement = () => {
   const dispatch = useDispatch();
-  const { STATUS } = DataTableHeader;
   const { currentPage, size, searchItemValue } = useSelector(
-    (state) => state.post
+    (state) => state.user
   );
   const { filter } = useSelector((state) => state.filter);
   useEffect(() => {
-    const getPostListHandler = () =>
+    const getUserListHandler = () =>
       dispatch(
-        getPostList({
+        getUserList({
           currentPage,
           size,
-          status:
-            filter?.field === STATUS
-              ? (filter?.value as StatusPost)
-              : undefined,
-          title: searchItemValue,
         })
       );
-    getPostListHandler().unwrap();
+    getUserListHandler().unwrap();
 
     // return () => {
     //   getPostListHandler().abort();
     //   dispatch(clearPost());
     // };
   }, [
-    STATUS,
     currentPage,
     dispatch,
     filter?.field,
@@ -43,14 +35,14 @@ const PostManagement = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(clearPost());
+    //   dispatch(clearPost());
     };
   }, [dispatch]);
 
   return (
     <Stack marginTop={10} spacing={5}>
       <Typography fontWeight={600} variant="h5">
-        Post Management
+        Account Management
       </Typography>
       <div className="flex flex-col rounded-md border border-gray-400 bg-white">
         <DataTable />
@@ -59,4 +51,4 @@ const PostManagement = () => {
   );
 };
 
-export default PostManagement;
+export default AccountManagement;

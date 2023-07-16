@@ -24,12 +24,14 @@ import {
   getPostCategoryList,
   getPostList,
   onChangePostPage,
+  onSearchPost,
 } from "@/slices/post";
 import { useDispatch, useSelector } from "@/hooks";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import React from "react";
 import CustomPagination from "@/components/Pagination";
 import SubmitForm from "@/pages/home/submit-form";
+import { IPostCategory } from "@/models/post";
 
 const BackgroundBox = styled(
   Box,
@@ -47,8 +49,9 @@ const CustomTextField = styled(
   TextField,
   {}
 )({
-  borderRadius: 8,
+  borderRadius: 3,
   color: "#fff",
+  width: 350,
   border: "1px #fff solid",
 });
 const SubmitPostBtn = styled(
@@ -86,7 +89,7 @@ const SecondSection = styled(
   background:
     "linear-gradient(159deg, rgba(233,241,255,1) 9%, rgba(115,152,221,1) 95%)",
   zIndex: 20,
-  padding: 100,
+  padding: 50,
 });
 
 interface OnChangePage {
@@ -103,9 +106,11 @@ function Home() {
     isGetPostCategoryListLoading,
     categoryList,
     total,
+    searchItemValue,
   } = useSelector((state) => state.post);
   const [openPost, setOpenPost] = useState<boolean[]>([]);
   const [isOpenPostForm, setIsOpenPostForm] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<IPostCategory | null>();
   const totalPages = useMemo(() => Math.ceil(total / 5), [total]);
 
   const handleCollapsePost = (index: number) => {
@@ -124,17 +129,30 @@ function Home() {
     dispatch(onChangePostPage({ selectedPage: --value }));
   };
 
+  const onHandleSelectCategory = (value: IPostCategory | null) => {
+    // console.log(value)
+    // if (!value) {return;}
+    setSelectedCategory(value);
+    // dispatch(setFilter({ field: CATEGORY, value: value.id }))
+  };
+
   useEffect(() => {
     const getPostListHandler = dispatch(
-      getPostList({ currentPage, size })
-    )
-    
-    getPostListHandler.unwrap()
+      getPostList({
+        currentPage,
+        size,
+        title: searchItemValue,
+        category:
+          selectedCategory?.id ?? undefined,
+      })
+    );
+
+    getPostListHandler.unwrap();
 
     return () => {
-      getPostListHandler.abort()
-    }
-  }, [currentPage, dispatch, size]);
+      getPostListHandler.abort();
+    };
+  }, [currentPage, dispatch, searchItemValue, selectedCategory, size]);
 
   useEffect(() => {
     const getPostCategoryListHandler = dispatch(getPostCategoryList());
@@ -144,8 +162,8 @@ function Home() {
 
   useEffect(() => {
     return () => {
-      dispatch(clearPost())
-    }
+      dispatch(clearPost());
+    };
   }, [dispatch]);
 
   return (
@@ -161,30 +179,38 @@ function Home() {
             opacity: "57%",
           }}
         />
-        <Stack direction="row" margin="auto" spacing={5} zIndex={20}>
+        <Stack margin="auto" spacing={5} zIndex={20} textAlign="center">
           <Typography color="#fff" variant="h4">
             Search post
           </Typography>
-          <CustomTextField inputProps={{ style: { color: "white" } }} />
+          <Stack direction="row">
+            <CustomTextField
+              onChange={(e) =>
+                dispatch(onSearchPost({ value: e.target.value }))
+              }
+              inputProps={{ style: { color: "white" } }}
+            />
+            <SubmitPostBtn onClick={handleToggleSubmitForm}>
+              Search
+            </SubmitPostBtn>
+          </Stack>
         </Stack>
       </BackgroundBox>
 
       <SecondSection>
         <CustomList spacing={5}>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Typography color="#000">Category:</Typography>
+            <Typography color="#000" fontWeight={600}>
+              Category:
+            </Typography>
             <Autocomplete
               disablePortal
               id="combo-box-demo"
               sx={{ width: 300, background: "#fff" }}
               loading={isGetPostCategoryListLoading}
               options={categoryList}
-              // onChange={(e, value) =>
-              //   setSubmitForm((prevState) => ({
-              //     ...prevState,
-              //     category: value?.id,
-              //   }))
-              // }
+              value={selectedCategory}
+              onChange={(e, value) => onHandleSelectCategory(value)}
               getOptionLabel={(option) => option.name}
               renderInput={(params) => (
                 <TextField

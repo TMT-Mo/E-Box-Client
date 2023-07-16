@@ -2,7 +2,6 @@ import { apis } from "@/util/api";
 import { KEY } from "@/util/constants";
 import axios, {
   AxiosError,
-  AxiosHeaderValue,
   AxiosResponse,
   Method,
 } from "axios";

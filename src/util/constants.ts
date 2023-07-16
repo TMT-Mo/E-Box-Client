@@ -19,6 +19,7 @@ export const LocationPath = {
   general: {
     login: "/login",
     home: "/home",
+    activity: "/home/activity",
   },
   admin: {
     admin: "/admin",
@@ -32,4 +33,5 @@ export const LocationPath = {
 
 export enum DataTableHeader {
   STATUS = "status",
+  CATEGORY = "category"
 }

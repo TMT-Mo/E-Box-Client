@@ -68,7 +68,7 @@ import { useSelector } from "@/hooks";
             </IconButton>
             <InputBase
               sx={{ ml: 1, flex: 1 }}
-              placeholder={"Search Document"}
+              placeholder={"Search Post"}
               value={searchItemValue}
               onChange={(e) =>
                 dispatch(onSearchPost({ value: e.target.value }))
@@ -87,7 +87,7 @@ import { useSelector } from "@/hooks";
           }}
         >
           <TextField
-            placeholder={"Search Document"}
+            placeholder={"Search Post"}
             value={searchItemValue}
             onChange={(e) => dispatch(onSearchPost({ value: e.target.value }))}
           />

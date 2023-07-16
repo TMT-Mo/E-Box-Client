@@ -1,5 +1,5 @@
 import { userServices } from "@/services/user";
-import { IUser, LoginArgument } from "@/models/user";
+import { IUser, LoginArgument, UserRequestQuery } from "@/models/user";
 import {
   CaseReducer,
   createAsyncThunk,
@@ -14,6 +14,12 @@ interface State {
   userInfo?: IUser;
   isLoginLoading: boolean;
   checkAuthenticated?: boolean;
+  isGetUserListLoading?: boolean;
+  userList: IUser[];
+  searchItemValue?: string;
+  currentPage: number;
+  size: number;
+  total: number;
 }
 
 type CR<T> = CaseReducer<State, PayloadAction<T>>;
@@ -24,6 +30,12 @@ const initialState: State = {
   checkAuthenticated: undefined,
   userInfo: undefined,
   isLoginLoading: false,
+  isGetUserListLoading: false,
+  userList: [],
+  searchItemValue: undefined,
+  currentPage: 0,
+  size: 5,
+  total: 1,
 };
 
 const setUserInfoCR: CR<{ user: IUser }> = (state, { payload }) => ({
@@ -31,9 +43,22 @@ const setUserInfoCR: CR<{ user: IUser }> = (state, { payload }) => ({
   userInfo: payload.user!,
 });
 
+const onChangeUserPageCR: CR<{ selectedPage: number }> = (
+  state,
+  { payload }
+) => ({
+  ...state,
+  currentPage: payload.selectedPage!,
+});
+
 const checkAuthenticationCR: CR<{ value: boolean }> = (state, { payload }) => ({
   ...state,
   checkAuthenticated: payload.value!,
+});
+
+const onSearchUserCR: CR<{ value: string }> = (state, { payload }) => ({
+  ...state,
+  searchItemValue: payload.value,
 });
 
 const logoutCR: CR<void> = () => ({
@@ -53,6 +78,18 @@ const login = createAsyncThunk(
   }
 );
 
+const getUserList = createAsyncThunk(
+  `${ACTION_TYPE}getUserList`,
+  async (params: UserRequestQuery, { dispatch }) => {
+    try {
+      const result = await userServices.getUserList(params);
+      return result;
+    } catch (error) {
+      handleErrorHandler(dispatch, error);
+    }
+  }
+);
+
 const user = createSlice({
   name: "user",
   initialState,
@@ -60,6 +97,8 @@ const user = createSlice({
     setUserInfo: setUserInfoCR,
     checkAuthentication: checkAuthenticationCR,
     logoutSlice: logoutCR,
+    onSearchUser: onSearchUserCR,
+    onChangeUserPage: onChangeUserPageCR,
   },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => ({
@@ -84,11 +123,24 @@ const user = createSlice({
       ...state,
       isLoginLoading: false,
     }));
+    builder.addCase(getUserList.pending, (state) => ({
+      ...state,
+      isGetUserListLoading: true,
+    }));
+    builder.addCase(getUserList.fulfilled, (state, { payload }) => ({
+      ...state,
+      isGetUserListLoading: false,
+      userList: payload!.items,
+    }));
+    builder.addCase(getUserList.rejected, (state) => ({
+      ...state,
+      isGetUserListLoading: false,
+    }));
   },
 });
 
-export { login };
+export { login, getUserList };
 
-export const { setUserInfo, checkAuthentication, logoutSlice } = user.actions;
+export const { setUserInfo, checkAuthentication, onChangeUserPage, logoutSlice, onSearchUser } = user.actions;
 
 export default user.reducer;

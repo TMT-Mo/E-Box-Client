@@ -64,7 +64,7 @@ export default function AdminLayout() {
   const { userInfo } = useSelector((state) => state.user);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { chat, history, postManagement } = LocationPath.admin;
+  const { chat, history, postManagement, account, activity } = LocationPath.admin;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -242,9 +242,39 @@ export default function AdminLayout() {
             </Stack>
             <DividerStyled />
             <StyledList aria-label="main mailbox folders">
-              <h5 className="pb-3 text-blue-config">Account</h5>
-
               <Stack spacing={0.5}>
+                <StyledListBtn
+                  selected={pathname === account}
+                  onClick={() => handleListItemClick(account)}
+                >
+                  <StyledTooltip
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 300 }}
+                    title="Account"
+                    placement="right"
+                  >
+                    <ListItemIconStyled>
+                      <AccountBoxOutlined className="fill-white" />
+                    </ListItemIconStyled>
+                  </StyledTooltip>
+                  <ListTextStyled primary="Account" />
+                </StyledListBtn>
+                <StyledListBtn
+                  selected={pathname === activity}
+                  onClick={() => handleListItemClick(activity)}
+                >
+                  <StyledTooltip
+                    TransitionComponent={Fade}
+                    TransitionProps={{ timeout: 300 }}
+                    title="Activity"
+                    placement="right"
+                  >
+                    <ListItemIconStyled>
+                      <AccountBoxOutlined className="fill-white" />
+                    </ListItemIconStyled>
+                  </StyledTooltip>
+                  <ListTextStyled primary="Activity" />
+                </StyledListBtn>
                 <StyledListBtn
                   selected={pathname === postManagement}
                   onClick={() => handleListItemClick(postManagement)}
@@ -252,14 +282,14 @@ export default function AdminLayout() {
                   <StyledTooltip
                     TransitionComponent={Fade}
                     TransitionProps={{ timeout: 300 }}
-                    title="Post Management"
+                    title="Post"
                     placement="right"
                   >
                     <ListItemIconStyled>
                       <AccountBoxOutlined className="fill-white" />
                     </ListItemIconStyled>
                   </StyledTooltip>
-                  <ListTextStyled primary="Post Management" />
+                  <ListTextStyled primary="Post" />
                 </StyledListBtn>
                 <StyledListBtn
                   selected={pathname === history}
@@ -295,7 +325,7 @@ export default function AdminLayout() {
                 </StyledListBtn>
               </Stack>
             </StyledList>
-            <DividerStyled />
+            {/* <DividerStyled /> */}
 
             {/* <div className="absolute top-0 left-0 w-full h-full z-0 bg-gradient-to-br from-slate-800 to-stone-500"></div> */}
           </Drawer>

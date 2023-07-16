@@ -82,6 +82,7 @@ const getPostList = createAsyncThunk(
     }
   }
 );
+
 const createPost = createAsyncThunk(
   `${ACTION_TYPE}createPost`,
   async (args: CreatePostArguments, { dispatch }) => {

@@ -47,6 +47,8 @@ export interface PostRequestQuery {
   currentPage?: number;
   size?: number;
   status?: StatusPost;
+  title?: string;
+  category?: string
 }
 
 export interface GetPostListResponse {

@@ -80,10 +80,6 @@ const CustomButton = styled(
   },
 });
 
-interface IForm {
-  username?: string;
-  password?: string;
-}
 function Login() {
   const [form, setForm] = useState<LoginArgument>({
     password: "",

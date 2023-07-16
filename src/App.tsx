@@ -15,6 +15,8 @@ import React from "react";
 import Introduction from "@/pages/introduction";
 import { helpers } from "@/util/helpers";
 import AuthRoute from "@/components/AuthRoute";
+import AccountManagement from "@/pages/account";
+import Activity from "@/pages/activity";
 
 function App() {
   const { checkAuthenticated } = useSelector((state) => state.user);
@@ -46,6 +48,7 @@ function App() {
           }
         >
           <Route path="" element={<Home />} />
+          <Route path="/home/activity" element={<Activity />} />
         </Route>
         <Route
           path={admin}
@@ -58,6 +61,7 @@ function App() {
           <Route path={postManagement} element={<PostManagement />} />
           <Route path={chat} element={<Chat />} />
           <Route path={history} element={<History />} />
+          <Route path={account} element={<AccountManagement />} />
           {/* <Navigate to={postManagement}/> */}
         </Route>
         <Route path="*" element={<NotFound />} />

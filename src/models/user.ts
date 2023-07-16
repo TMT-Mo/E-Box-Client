@@ -30,11 +30,15 @@ export interface IUser {
   activities: [];
 }
 
-export interface GetSignatureArgs {
-  userId: number;
+export interface GetUserListResponse {
+  items: IUser[],
+  currentPage: number,
+  size: number,
+  total: number
 }
 
-export interface GetSignatureResponse {
-  signature: string;
-  avatar?: string;
+export interface UserRequestQuery {
+  currentPage?: number;
+  size?: number;
+  username?: string
 }
