@@ -20,15 +20,22 @@ export interface ChangePasswordArgument {
   // newPassword: string;
 }
 
+export interface IRole {
+  id: string,
+  name: string,
+  createdAt: Date,
+  updatedAt: Date
+}
 export interface IUser {
   id: string;
   username: string;
-  roleName: string;
+  role: IRole;
   createdAt: Date;
   updatedAt: Date;
   posts: [];
   activities: [];
 }
+
 
 export interface GetUserListResponse {
   items: IUser[],

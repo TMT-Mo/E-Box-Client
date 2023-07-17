@@ -239,7 +239,8 @@ function Home() {
                 sx={{
                   width: "100%",
                   maxWidth: 800,
-                  bgcolor: "background.paper",
+                  bgcolor: "background.paper"
+                  
                 }}
                 component="nav"
                 aria-labelledby="nested-list-subheader"

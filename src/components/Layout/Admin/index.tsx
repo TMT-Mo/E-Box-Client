@@ -235,7 +235,7 @@ export default function AdminLayout() {
                     whiteSpace="normal"
                     fontWeight="bold"
                   >
-                    {userInfo?.roleName}
+                    Role: {userInfo?.role.name}
                   </Typography>
                 </Stack>
               )}

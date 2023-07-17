@@ -18,9 +18,9 @@ import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useAuth } from "@/hooks";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LocationPath } from "@/util/constants";
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import AssignmentIcon from "@mui/icons-material/Assignment";
 const StyledTopBar = styled(
   Stack,
   {}
@@ -30,27 +30,29 @@ const StyledTopBar = styled(
   justifyContent: "space-around",
   position: "absolute",
   zIndex: 20,
-  flexDirection: 'row',
-  width: '100%'
+  flexDirection: "row",
+  width: "100%",
 });
 
 const TopBar = () => {
-  const navigate = useNavigate()
-  const {logout} = useAuth()
-  const {postManagement} = LocationPath.admin
-  const {activity} = LocationPath.general
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+  const { postManagement } = LocationPath.admin;
+  const { activity, home } = LocationPath.general;
   const signOutHandler = () => {
     logout();
   };
 
   return (
     <StyledTopBar>
+        <Link to={home}>
       <Stack direction="row" alignItems="center" spacing={3}>
-        <img src={logo} className="w-8 h-8" />
-        <Typography fontSize="1.5rem" color="#fff" fontWeight={600}>
-          E-Box
-        </Typography>
+          <img src={logo} className="w-8 h-8" />
+          <Typography fontSize="1.5rem" color="#fff" fontWeight={600}>
+            E-Box
+          </Typography>
       </Stack>
+        </Link>
       <PopupState variant="popover" popupId="demo-popup-popover">
         {(popupState) => (
           <div>

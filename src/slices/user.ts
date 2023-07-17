@@ -27,7 +27,7 @@ type CR<T> = CaseReducer<State, PayloadAction<T>>;
 const ACTION_TYPE = "user/";
 
 const initialState: State = {
-  checkAuthenticated: undefined,
+  checkAuthenticated: false,
   userInfo: undefined,
   isLoginLoading: false,
   isGetUserListLoading: false,

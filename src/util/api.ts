@@ -13,5 +13,8 @@ export const apis = {
         getCategoryList: `${API_HEAD}/post/getCategoryList`,
         createPost: `${API_HEAD}/post/createPost`,
         approvePost: `${API_HEAD}/post/updatePost`,
-    }
+    },
+    activity:  {
+        getActivityList: `${API_HEAD}/activity/getActivityList`,
+    },
 }
